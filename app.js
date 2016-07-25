@@ -11,6 +11,10 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 app.get('/', function (req, res) {
+    res.status(200).send('Hello world');
+});
+
+app.get('/play', function (req, res) {
     var game = req.query.game;
     var callback = req.query.callback;
 

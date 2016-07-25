@@ -1,0 +1,27 @@
+{
+  "name": "tictacfunc-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DavidVujic/tictacfunc-backend.git"
+  },
+  "author": "David Vujic",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DavidVujic/tictacfunc-backend/issues"
+  },
+  "homepage": "https://github.com/DavidVujic/tictacfunc-backend#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "helmet": "^2.1.1"
+  },
+  "devDependencies": {
+    "eslint": "^3.1.1"
+  }
+}

@@ -4,24 +4,24 @@ var bodyParser = require('body-parser');
 
 var app = express();
 
-app.use(bodyParser.urlencoded({
+/*app.use(bodyParser.urlencoded({
     extended: false
 }));
 
 app.use(bodyParser.json());
-
+*/
 app.get('/', function (req, res) {
     res.status(200).send('Hello world');
 });
 
 app.get('/play', function (req, res) {
-    var game = req.query.game;
+    var game = decodeURIComponent(req.query.game);
     var callback = req.query.callback;
 
     var options = {
         hostname: 'f11xvgecf1.execute-api.us-west-2.amazonaws.com',
         port: 443,
-        path: '/prod/play?game=' + game + '&callback=' + callback,
+        path: '/prod/play?game=' + encodeURIComponent(game) + '&callback=' + callback,
         method: 'GET'
     };
 

@@ -15,9 +15,9 @@ app.get('/', function (req, res) {
     res.status(200).send('Greetings Professor Function. How about a nice game of Tic Tac Func?');
 });
 
-app.get('/play', function (req, res) {
+app.get('/play/awslambda', function (req, res) {
     var game = decodeURIComponent(req.query.game);
-
+    var chunks = [];
     var options = {
         hostname: 'f11xvgecf1.execute-api.us-west-2.amazonaws.com',
         port: 443,
@@ -26,8 +26,12 @@ app.get('/play', function (req, res) {
     };
 
     var requestMove = https.request(options, function (moveResponse) {
-        moveResponse.on('data', function (move) {
-            res.jsonp(move);
+        moveResponse.on('data', function (chunk) {
+            chunks.push(chunk);
+        });
+
+        moveResponse.on('end', function () {
+            res.jsonp(JSON.parse(chunks.join('')));
         });
     });
 

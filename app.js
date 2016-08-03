@@ -16,11 +16,10 @@ app.get('/', function (req, res) {
 });
 
 app.get('/play/awslambda', function (req, res) {
-    var game = decodeURIComponent(req.query.game);
     var options = {
         hostname: 'f11xvgecf1.execute-api.us-west-2.amazonaws.com',
         port: 443,
-        path: '/prod/play?game=' + encodeURIComponent(game),
+        path: '/prod/play?game=' + parseGame(req),
         method: 'GET'
     };
 
@@ -28,16 +27,21 @@ app.get('/play/awslambda', function (req, res) {
 });
 
 app.get('/play/azurefunction', function (req, res) {
-    var game = decodeURIComponent(req.query.game);
     var options = {
         hostname: 'tictacfunc.azurewebsites.net',
         port: 443,
-        path: '/api/play?game=' + encodeURIComponent(game),
+        path: '/api/play?game=' + parseGame(req),
         method: 'GET'
     };
 
     play(req, res, options);
 });
+
+function parseGame(req) {
+    var game = decodeURIComponent(req.query.game);
+
+    return encodeURIComponent(game);
+}
 
 function play(req, res, options) {
     var chunks = [];

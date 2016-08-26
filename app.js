@@ -40,9 +40,7 @@ app.get('/play/azurefunction', function(req, res) {
 });
 
 function play(target, data, res) {
-  console.log(data);
     target.play(data, function(result) {
-        console.log(result);
         res.jsonp(result);
     });
 }

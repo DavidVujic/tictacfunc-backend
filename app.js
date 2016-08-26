@@ -3,7 +3,7 @@ var helmet = require('helmet');
 var bodyParser = require('body-parser');
 
 var aws = require('./players/awslambda');
-var azure = require('./players/azurefunction');
+var azure = require('./players/azurefunction-christopheranderson');
 
 var app = express();
 

@@ -1,7 +1,9 @@
 var express = require('express');
 var helmet = require('helmet');
-var https = require('https');
 var bodyParser = require('body-parser');
+
+var aws = require('./players/awslambda');
+var azure = require('./players/azurefunction');
 
 var app = express();
 
@@ -11,31 +13,39 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-app.get('/', function (req, res) {
+app.get('/', function(req, res) {
     res.status(200).send('Greetings Professor Function. How about a nice game of Tic Tac Func?');
 });
 
-app.get('/play/awslambda', function (req, res) {
-    var options = {
-        hostname: 'f11xvgecf1.execute-api.us-west-2.amazonaws.com',
-        port: 443,
-        path: '/prod/play?game=' + parseGame(req),
-        method: 'GET'
+app.get('/play/awslambda', function(req, res) {
+    var eventObj = {
+        params: {
+            querystring: {
+                game: parseGame(req)
+            }
+        }
     };
 
-    play(req, res, options);
+    play(aws, eventObj, res);
 });
 
-app.get('/play/azurefunction', function (req, res) {
-    var options = {
-        hostname: 'tictacfunc.azurewebsites.net',
-        port: 443,
-        path: '/api/play?game=' + parseGame(req),
-        method: 'GET'
+app.get('/play/azurefunction', function(req, res) {
+    var eventObj = {
+        query: {
+            game: parseGame(req)
+        }
     };
 
-    play(req, res, options);
+    play(azure, eventObj, res);
 });
+
+function play(target, data, res) {
+  console.log(data);
+    target.play(data, function(result) {
+        console.log(result);
+        res.jsonp(result);
+    });
+}
 
 function parseGame(req) {
     var game = decodeURIComponent(req.query.game);
@@ -43,27 +53,7 @@ function parseGame(req) {
     return encodeURIComponent(game);
 }
 
-function play(req, res, options) {
-    var chunks = [];
-
-    var requestMove = https.request(options, function (moveResponse) {
-        moveResponse.on('data', function (chunk) {
-            chunks.push(chunk);
-        });
-
-        moveResponse.on('end', function () {
-            res.jsonp(JSON.parse(chunks.join('')));
-        });
-    });
-
-    requestMove.end();
-
-    requestMove.on('error', function (e) {
-        res.status(200).send(e);
-    });
-}
-
-var server = app.listen(process.env.PORT || '8080', function () {
+var server = app.listen(process.env.PORT || '8080', function() {
     console.log('App listening on port %s', server.address().port);
     console.log('Press Ctrl+C to quit.');
 });

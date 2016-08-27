@@ -28,7 +28,7 @@ app.get('/play/awslambda', function (req, res) {
 
 app.get('/play/azurefunction', function (req, res) {
     var options = {
-        hostname: 'tictacfunc.azurewebsites.net',
+        hostname: 'tictacfuncplayer.azurewebsites.net',
         port: 443,
         path: '/api/play?game=' + parseGame(req),
         method: 'GET'

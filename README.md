@@ -2,7 +2,7 @@
 
 Play the game at: https://davidvujic.github.io/tictacfunc
 
-This repo is the back end part of Tic-Tac-Func: a simple API written in nodejs. The service consumes one AWS Lambda and one Azure Function, the players of the game, and returns a player move as a jsonp call.
+This repo was previously the back end part of Tic-Tac-Func (no longer used in production): a simple API written in nodejs. The service consumes one AWS Lambda and one Azure Function, the players of the game, and returns a player move as a jsonp call.
 
 ~~I couldn't figure out how to send data as jsonp from AWS Lambda, that is why this extra layer exist. -Do you have a solution, that would make this API unnecessary?~~
 
